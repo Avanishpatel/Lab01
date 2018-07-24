@@ -1,9 +1,6 @@
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,14 +31,19 @@ public class InsertData {
 
                 preparedStmt.setDouble(3, object.getJsonNumber("price").doubleValue());
                 preparedStmt.setInt(4, object.getInt("volume"));
+//
+                  String dateString = object.getString("date");
+//
+                  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+//                Date date = simpleDateFormat.parse(dateString.substring(0,19));
+//                //Date date = format.parse(object.getString("date").substring(0,19));
 
-                String dateString = object.getString("date");
+                  java.util.Date date = simpleDateFormat.parse(dateString);
+                  Timestamp timestamp = new Timestamp(date.getTime());
 
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                Date date = simpleDateFormat.parse(dateString.substring(0,19));
-                //Date date = format.parse(object.getString("date").substring(0,19));
-                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                preparedStmt.setDate (5, sqlDate);
+                  preparedStmt.setTimestamp (5, timestamp);
+
+
 
                 preparedStmt.execute();
                 count++;
@@ -54,11 +56,9 @@ public class InsertData {
         } catch (SQLException e) {
             System.out.println("SQL Exception occur.");
             e.printStackTrace();
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
-        }
-
-        finally {
+        } finally {
 
             try {
                 statement.close();
