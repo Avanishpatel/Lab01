@@ -10,9 +10,9 @@ public class Main {
 
         System.out.println("Enter your choice of Operation : ");
         System.out.println("(1) to insert data into database.");
-        System.out.println("(2) to get Maximum price of stock between any date range.");
-        System.out.println("(3) to get Minimum price of stock between any date range.");
-        System.out.println("(4) to get Volume of stock between any date range.");
+        System.out.println("(2) to get Maximum price of stock on particular day.");
+        System.out.println("(3) to get Minimum price of stock on particular day.");
+        System.out.println("(4) to get Total Volume of stock on particular day.");
 
         int userChoice = scanner.nextInt();
 
@@ -27,14 +27,12 @@ public class Main {
 
                 System.out.println("Enter the name of stock : ");
                 String stockName = scanner.next();
-                System.out.println("Enter the start date in format YYYY-MM-DD :");
-                String startDate = scanner.next();
-                System.out.println("Enter the end date in format YYYY-MM-DD :");
-                String endDate = scanner.next();
+                System.out.println("Enter the date in format YYYY-MM-DD :");
+                String date = scanner.next();
 
 
-                double maxValue = ExecuteQuery.getMaxPriceBetweenRangeforStock(stockName, startDate, endDate);
-                System.out.println("Maximum value of " + stockName + " between " + startDate + " and " + endDate + " is " + maxValue);
+                double maxValue = ExecuteQuery.getMaxPriceOfStock(stockName, date);
+                System.out.println("Maximum value of " + stockName + " on " + date + " is " + maxValue);
 
                 break;
             case 3:
@@ -42,22 +40,21 @@ public class Main {
                 System.out.println("Enter the name of stock : ");
                 String stockName1 = scanner.next();
                 System.out.println("Enter the start date in format YYYY-MM-DD :");
-                String startDate1 = scanner.next();
-                System.out.println("Enter the end date in format YYYY-MM-DD :");
-                String endDate1 = scanner.next();
+                String date1 = scanner.next();
 
 
-                double minValue = ExecuteQuery.getMinPriceBetweenRangeforStock(stockName1, startDate1, endDate1);
-                System.out.println("Min value of " + stockName1 + " between " + startDate1 + " and " + endDate1 + " is " + minValue);
+                double minValue = ExecuteQuery.getMinPriceofStock(stockName1, date1);
+                System.out.println("Minimum value of " + stockName1 + " on " + date1 + " is " + minValue);
                 break;
+
             case 4:
 
-                System.out.println("Enter the start date in format YYYY-MM-DD :");
-                String startDate2 = scanner.next();
+                System.out.println("Enter the stock name :");
+                String stockName2 = scanner.next();
                 System.out.println("Enter the end date in format YYYY-MM-DD :");
-                String endDate2 = scanner.next();
-                long totalVolume = ExecuteQuery.totalValueOfStockInRange(startDate2, endDate2);
-                System.out.println("Total volume of trade :" + totalVolume);
+                String date2 = scanner.next();
+                long totalVolume = ExecuteQuery.totalVolumeOfTrade(stockName2, date2);
+                System.out.println("Total volume of trade on "+ date2 + " is " + totalVolume);
                 break;
 
         }

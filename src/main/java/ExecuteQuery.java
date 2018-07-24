@@ -9,7 +9,7 @@ import java.util.Date;
 public class ExecuteQuery {
 
 
-    public static double getMaxPriceBetweenRangeforStock(String stockName, String sdate, String edate) {
+    public static double getMaxPriceOfStock(String stockName, String date) {
         double maxValue = 0;
         Statement st = null;
         Connection connection = null;
@@ -17,22 +17,19 @@ public class ExecuteQuery {
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            Date sDateParsed = simpleDateFormat.parse(sdate);
-            Date eDateParsed = simpleDateFormat.parse(edate);
-
+            Date sDateParsed = simpleDateFormat.parse(date);
             java.sql.Date startSqlDate = new java.sql.Date(sDateParsed.getTime());
-            java.sql.Date endSqlDate = new java.sql.Date(eDateParsed.getTime());
 
             connection = ConnectionManager.getConnection();
 
             st = connection.createStatement();
             // execute the query and store into resultset
-            ResultSet rs = st.executeQuery("select max(price) from stock where symbol=\'" + stockName + "\' and date between \'" + startSqlDate + "\' and \'" + endSqlDate + "\'");
+            ResultSet rs = st.executeQuery("SELECT MAX(price) FROM stock WHERE symbol=\'" + stockName + "\' AND date BETWEEN \'" + startSqlDate + " 08:30:00\' AND \'" + date + " 16:30:00\'");
             // move the pointer
             rs.next();
 
             // store the column value into string name
-            maxValue = rs.getDouble("max(price)");
+            maxValue = rs.getDouble("MAX(price)");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,7 +49,7 @@ public class ExecuteQuery {
     }
 
 
-    public static double getMinPriceBetweenRangeforStock(String stockName, String sdate, String edate) {
+    public static double getMinPriceofStock(String stockName, String sdate) {
         double minValue = 0;
 
         Statement st = null;
@@ -62,20 +59,18 @@ public class ExecuteQuery {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             Date sDateParsed = simpleDateFormat.parse(sdate);
-            Date eDateParsed = simpleDateFormat.parse(edate);
 
             java.sql.Date startSqlDate = new java.sql.Date(sDateParsed.getTime());
-            java.sql.Date endSqlDate = new java.sql.Date(eDateParsed.getTime());
 
             connection = ConnectionManager.getConnection();
             st = connection.createStatement();
             // execute the query and store into resultset
-            ResultSet rs = st.executeQuery("select min(price) from stock where symbol=\'" + stockName + "\' and date between \'" + startSqlDate + "\' and \'" + endSqlDate + "\'");
+            ResultSet rs = st.executeQuery("SELECT MIN(price) FROM stock WHERE symbol=\'" + stockName + "\' AND date BETWEEN \'" + startSqlDate + " 08:30:00\' AND \'" + startSqlDate+ " 16:30:00\'");
             // move the pointer
             rs.next();
 
             // store the column value into string name
-            minValue = rs.getDouble("min(price)");
+            minValue = rs.getDouble("MIN(price)");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,7 +92,7 @@ public class ExecuteQuery {
         return minValue;
     }
 
-    public static long totalValueOfStockInRange(String sdate, String edate){
+    public static long totalVolumeOfTrade(String stockName, String date){
 
         long totalVolume = 0;
         Statement st = null;
@@ -107,21 +102,18 @@ public class ExecuteQuery {
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            Date sDateParsed = simpleDateFormat.parse(sdate);
-            Date eDateParsed = simpleDateFormat.parse(edate);
-
-            java.sql.Date startSqlDate = new java.sql.Date(sDateParsed.getTime());
-            java.sql.Date endSqlDate = new java.sql.Date(eDateParsed.getTime());
+            Date sDateParsed = simpleDateFormat.parse(date);
+            java.sql.Date date1 = new java.sql.Date(sDateParsed.getTime());
 
             connection = ConnectionManager.getConnection();
             st = connection.createStatement();
             // execute the query and store into resultset
-            ResultSet rs = st.executeQuery("select sum(volume) from stock where date between \'" + startSqlDate + "\' and \'" + endSqlDate + "\'");
+            ResultSet rs = st.executeQuery("SELECT SUM(volume) FROM stock WHERE symbol=\'"+stockName+"\' AND date BETWEEN \'" + date1 + " 08:30:00\' AND \'" + date1 + " 16:30:00\'");
             // move the pointer
             rs.next();
 
             // store the column value into string name
-            totalVolume = rs.getLong("sum(volume)");
+            totalVolume = rs.getLong("SUM(volume)");
             // print the value
             // close the connection
 
