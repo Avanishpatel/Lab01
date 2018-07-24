@@ -55,7 +55,7 @@ public class ExecuteQuery {
         Statement st = null;
         Connection connection = null;
 
-        try{
+        try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             Date sDateParsed = simpleDateFormat.parse(sdate);
@@ -65,7 +65,7 @@ public class ExecuteQuery {
             connection = ConnectionManager.getConnection();
             st = connection.createStatement();
             // execute the query and store into resultset
-            ResultSet rs = st.executeQuery("SELECT MIN(price) FROM stock WHERE symbol=\'" + stockName + "\' AND date BETWEEN \'" + startSqlDate + " 08:30:00\' AND \'" + startSqlDate+ " 16:30:00\'");
+            ResultSet rs = st.executeQuery("SELECT MIN(price) FROM stock WHERE symbol=\'" + stockName + "\' AND date BETWEEN \'" + startSqlDate + " 08:30:00\' AND \'" + startSqlDate + " 16:30:00\'");
             // move the pointer
             rs.next();
 
@@ -76,9 +76,7 @@ public class ExecuteQuery {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-
-        finally {
+        } finally {
             try {
                 st.close();
                 connection.close();
@@ -92,13 +90,13 @@ public class ExecuteQuery {
         return minValue;
     }
 
-    public static long totalVolumeOfTrade(String stockName, String date){
+    public static long totalVolumeOfTrade(String stockName, String date) {
 
         long totalVolume = 0;
         Statement st = null;
         Connection connection = null;
 
-        try{
+        try {
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -108,7 +106,7 @@ public class ExecuteQuery {
             connection = ConnectionManager.getConnection();
             st = connection.createStatement();
             // execute the query and store into resultset
-            ResultSet rs = st.executeQuery("SELECT SUM(volume) FROM stock WHERE symbol=\'"+stockName+"\' AND date BETWEEN \'" + date1 + " 08:30:00\' AND \'" + date1 + " 16:30:00\'");
+            ResultSet rs = st.executeQuery("SELECT SUM(volume) FROM stock WHERE symbol=\'" + stockName + "\' AND date BETWEEN \'" + date1 + " 08:30:00\' AND \'" + date1 + " 16:30:00\'");
             // move the pointer
             rs.next();
 
@@ -121,10 +119,7 @@ public class ExecuteQuery {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-
-
-        finally {
+        } finally {
             try {
                 st.close();
                 connection.close();

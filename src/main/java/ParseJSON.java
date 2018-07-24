@@ -8,7 +8,7 @@ import java.net.URL;
 
 public class ParseJSON {
 
-    public static JsonArray parseJSON(){
+    public static JsonArray parseJSON() {
 
         InputStream stream = null;
         JsonReader jsonReader = null;

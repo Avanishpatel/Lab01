@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class InsertData {
 
-    public static void insertJSONtoDB(JsonArray jsonArray){
+    public static void insertJSONtoDB(JsonArray jsonArray) {
 
         Connection connection = ConnectionManager.getConnection();
 
@@ -32,17 +32,16 @@ public class InsertData {
                 preparedStmt.setDouble(3, object.getJsonNumber("price").doubleValue());
                 preparedStmt.setInt(4, object.getInt("volume"));
 //
-                  String dateString = object.getString("date");
+                String dateString = object.getString("date");
 //
-                  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 //                Date date = simpleDateFormat.parse(dateString.substring(0,19));
 //                //Date date = format.parse(object.getString("date").substring(0,19));
 
-                  java.util.Date date = simpleDateFormat.parse(dateString);
-                  Timestamp timestamp = new Timestamp(date.getTime());
+                java.util.Date date = simpleDateFormat.parse(dateString);
+                Timestamp timestamp = new Timestamp(date.getTime());
 
-                  preparedStmt.setTimestamp (5, timestamp);
-
+                preparedStmt.setTimestamp(5, timestamp);
 
 
                 preparedStmt.execute();
